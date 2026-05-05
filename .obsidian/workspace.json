@@ -1,0 +1,180 @@
+{
+  "main": {
+    "id": "5d1ed9209427c833",
+    "type": "split",
+    "children": [
+      {
+        "id": "c64f9909726d5929",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "baf8eafda6da0288",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "CSC236 Notes.md",
+                "mode": "source",
+                "source": false,
+                "backlinks": false
+              },
+              "icon": "lucide-file",
+              "title": "CSC236 Notes"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "4af61b14877faf90",
+    "type": "split",
+    "children": [
+      {
+        "id": "0f351a121e6159d7",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "9c6af2f771614a1d",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "dfea20a24f3fc422",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 200,
+    "collapsed": true
+  },
+  "right": {
+    "id": "6d7d298fd7655ff9",
+    "type": "split",
+    "children": [
+      {
+        "id": "fb04b638bbd0f901",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "711646817dcee3aa",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Calculus, Multivariable.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": false
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from Calculus, Multivariable"
+            }
+          },
+          {
+            "id": "9a44bd2da04ecc0e",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "f5c0aa51a6d96146",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Calculus, Multivariable.md",
+                "followCursor": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of Calculus, Multivariable"
+            }
+          },
+          {
+            "id": "ef6fa5950a268de6",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          }
+        ],
+        "currentTab": 2
+      }
+    ],
+    "direction": "horizontal",
+    "width": 200,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "command-palette:Open command palette": false,
+      "workspaces:Manage workspace layouts": true
+    }
+  },
+  "active": "baf8eafda6da0288",
+  "lastOpenFiles": [
+    "notes-liu.pdf",
+    "CSC236 Notes.md",
+    "notes-hadzilacos.pdf",
+    "STA237 Notes.md",
+    "STA238 Notes.md",
+    "Unconfirmed 494567.crdownload",
+    "18E70720",
+    "6BD70720",
+    "FDC70720",
+    "52A70720",
+    "E9870720",
+    "DA770720",
+    "Capture1.PNG",
+    "Capture2.PNG",
+    "Capture3.PNG",
+    "F7760720",
+    "Capture.PNG",
+    "Introduction to Probability.md",
+    "Modern Introduction to Probability & Statistics.md",
+    "Calculus, Multivariable.md",
+    "Calculus Multivariable.md"
+  ]
+}

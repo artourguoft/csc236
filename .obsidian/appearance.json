@@ -1,0 +1,15 @@
+{
+  "accentColor": "#737373",
+  "cssTheme": "Border",
+  "theme": "moonstone",
+  "textFontFamily": "Times New Roman,Arial,Georgia",
+  "interfaceFontFamily": "",
+  "monospaceFontFamily": "JetBrains Mono",
+  "baseFontSize": 28,
+  "enabledCssSnippets": [
+    "obsidian-default-theme"
+  ],
+  "showRibbon": true,
+  "showViewHeader": false,
+  "nativeMenus": false
+}
