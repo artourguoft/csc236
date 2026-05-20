@@ -29,14 +29,6 @@
   ],
   "app:go-back": [],
   "app:go-forward": [],
-  "editor:insert-codeblock": [
-    {
-      "modifiers": [
-        "Alt"
-      ],
-      "key": "K"
-    }
-  ],
   "app:toggle-left-sidebar": [
     {
       "modifiers": [
@@ -70,6 +62,23 @@
         "Alt"
       ],
       "key": "="
+    }
+  ],
+  "editor:insert-codeblock": [
+    {
+      "modifiers": [
+        "Alt",
+        "Shift"
+      ],
+      "key": "K"
+    }
+  ],
+  "editor:toggle-code": [
+    {
+      "modifiers": [
+        "Alt"
+      ],
+      "key": "K"
     }
   ]
 }

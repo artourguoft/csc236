@@ -4,7 +4,7 @@
   "theme": "moonstone",
   "textFontFamily": "Times New Roman,Arial,Georgia",
   "interfaceFontFamily": "",
-  "monospaceFontFamily": "JetBrains Mono",
+  "monospaceFontFamily": "JetBrains Mono,Ioskeley Mono",
   "baseFontSize": 28,
   "enabledCssSnippets": [
     "obsidian-default-theme"

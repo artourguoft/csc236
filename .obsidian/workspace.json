@@ -69,8 +69,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "6d7d298fd7655ff9",
@@ -155,8 +154,9 @@
   },
   "active": "baf8eafda6da0288",
   "lastOpenFiles": [
-    "notes-liu.pdf",
+    "Untitled.md",
     "CSC236 Notes.md",
+    "notes-liu.pdf",
     "notes-hadzilacos.pdf",
     "STA237 Notes.md",
     "STA238 Notes.md",
