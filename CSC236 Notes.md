@@ -36,8 +36,7 @@ To prove **recursive correctness**:
 - Consider the lack of an explicit base case; if we expand out the antecedent in the principle of Complete Induction, the first term would be $\forall k\in \mathbb{N}_{<0},P(k)\implies P(0)$, within which the antecedent is vacuously true, so it is equivalent to $P(0)$
 	- Then we consider that $P(0)$ will be implicitly clear in the proof; an example is the prime factorization proof by induction where instantiations with a prime number are all one special implicit base case; in such proofs, we simply set up $n$ and $k$, and assume the IH
 - However, **usually an explicit base case is needed**, so we prove $P(0)$ directly as a base case, then the full statement is: $P(0)\wedge(\forall n\in \mathbb{N},(\forall k\in \mathbb{N}_{<n},P(k))\implies P(n))\implies \forall n\in \mathbb{N},P(n)$
-	- In such proofs, we prove the bases directly, then set up $n$ and $k$ and assume the IH, and prove $P(n)$ directly from there
-		- This order is important as the lower bound for $n$ will be the point at which we have recourse to the base cases!
+	- In such proofs, we set up $n$ and prove the base cases directly; after that we have $n$ greater than the largest base case, and now we can set up $k$s and show their validity, then we can assume the IH, etc.
 - When proving a predicate for **naturals greater than or equal to some constant** $c$, we prove $P(c)$ and any other necessary base cases directly, then we assume in the IH that the predicate holds for all $c\leq k<n$
 	- The whole statement becomes $P(c)\wedge(\forall n\in \mathbb{N}_{\geq c},(\forall k\in \mathbb{N},(c\leq k<n)\implies P(k))\implies P(n))\implies \forall n\in \mathbb{N}_{\geq c},P(n)$
 	- In the inductive step, the key is the **decomposition** of $n$ into smaller elements (ex. $k=n-3$), ie. finding valid smaller sizes of the problem to use the IH with
