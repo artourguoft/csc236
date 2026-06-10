@@ -15,37 +15,39 @@ To prove **recursive correctness**:
 9. **Valid non-recursive calls**; throughout the entire function show that each non-recursive call (even including control flow and operators!) is valid, ie. is being called with the correct types, returns the correct types, etc.
 # <u>Mathematical Induction</u>
 **Simple Induction:** $P(0)∧(\forall k\in \mathbb{N},P(k)\implies P(k+1))\implies \forall n\in \mathbb{N},P(n)$
-- The key idea behind simple induction is the ability to break down a problem of size $k+x$ into something **exactly** $x$ **size smaller**, which then allows us to use the **induction hypothesis** which here is $P(k)$
-	- This is not always possible! A common pitfall of simple induction is that our induction hypothesis is not strong enough to still apply when we break an object down into problems $x$ size smaller, consider an example:
+- The key idea behind Simple Induction is the ability to break down a problem of size $k+x$ into something **exactly** $x$ **size smaller**, which then allows us to use the **induction hypothesis** which here is $P(k)$
+	- This is not always possible! A common pitfall of Simple Induction is that our induction hypothesis is not strong enough to still apply when we break an object down into problems $x$ size smaller, consider an example:
 		- We have an induction hypothesis about full binary trees $P(nodes-1)\implies P(nodes)$; but removing a node from a full binary tree makes the tree not full, thus we cannot use it in the predicate $P$
-	- The solution is to either look at complete induction as we will show below, or to try to do the entire induction proof on a stronger predicate
-- Note that the relative size of the problems **does not have to mean the number** $1$; simple induction can also be used to prove statements for all naturals that are multiples of $5$ for example, in which we would look at $k+5$
+	- The solution is to either look at Complete Induction as we will show below, or to try to do the entire induction proof on a stronger predicate
+- Note that the relative size of the problems **does not have to mean the number** $1$; Simple Induction can also be used to prove statements for all naturals that are multiples of $5$ for example, in which we would look at $k+5$
 - **Bases greater than** $0$ need to be explicitly included in the induction hypothesis, but of course they also change the definition of what we are proving by the principle of induction, ex.: $P(2)\wedge(\forall k\in \mathbb{N}_{\geq 2},P(k)⇒P(k+1))\implies \forall n\in \mathbb{N}_{\geq 2},P(n)$
-- **Multiple bases** must be included in some scenarios, for example if we are trying to prove a predicate for all naturals but our inductive hypothesis only proves $\forall k\in \mathbb{N},P(k)\implies P(k+3)$, then we needed bas e cases $P(0)\wedge P(1)\wedge P(2)$
-- When the inductive hypothesis uses $k$ in the conclusion and an expression that **decrements** $k$ **in the antecedent**, be careful that your IH always has **recourse to a base case** by selecting an appropriate **lower bound**, ex.:
+- **Multiple bases** must be included in some scenarios, for example if we are trying to prove a predicate for all naturals but our IH only proves $\forall k\in \mathbb{N},P(k)\implies P(k+3)$, then we needed base cases $P(0)\wedge P(1)\wedge P(2)$
+- When the IH uses $k$ in the conclusion and an expression that **decrements** $k$ **in the antecedent**, be careful that your IH always has **recourse to a base case** by selecting an appropriate **lower bound**, ex.:
 	- $P(1)\wedge (\forall k\in \mathbb{N}_{\geq 1},P(k-1)\implies P(k))\implies \forall n\in \mathbb{N}_{\geq 1},P(n)$ is incorrect; IH instantiates $P(0)\implies P(1)$ for $k=1$
 	- $P(1)\wedge(\forall k\in \mathbb{N}_{\geq 2},P(k-1)\implies P(k))\implies \forall n\in \mathbb{N}_{\geq 1},P(n)$ is correct
-- When working with complicated step sizes, ensure that your inductive hypothesis always has **recourse to a base case** by selecting an appropriate lower bound and / or **multiple base cases**, for ex.:
+- When working with complicated step sizes, ensure that your IH always has **recourse to a base case** by selecting an appropriate lower bound and / or **multiple base cases**, for ex.:
 	- Assume undefined $P(0),P(1)$, so want to prove $\forall n\in \mathbb{N}_{\geq 2},P(n)$ with inductive step $P\left( \left\lceil  \frac{k}{3}  \right\rceil \right)\implies P(k)$
 		- It would not suffice to set $\forall k\in \mathbb{N}$ because for $k=2,3$ we get $\left\lceil  \frac{2}{3}  \right\rceil,\left\lceil  \frac{3}{3}  \right\rceil=1$ which gives us $P(1)\implies P(2)$ and $P(1)\implies P(3)$, but $P(1)$ is undefined and out of scope of the proof!
 			- The correct structure then is $P(2)\wedge P(3)\wedge(\forall k\in \mathbb{N}_{\geq 4},P\left( \left\lceil  \frac{k}{3}  \right\rceil \right)\implies P(k))\implies \forall n\in \mathbb{N}_{\geq 2},P(n)$, start with base $P(2)$ and add more cases until the IH always instantiates to a base case in the antecedent, here that is $k=4$ since $\left\lceil  \frac{4}{3}  \right\rceil=2$
 
 **Complete Induction:** $[\forall n\in \mathbb{N},(\forall k\in \mathbb{N}_{<n},P(k))\implies P(n)]\implies \forall n\in \mathbb{N},P(n)$
-- We have seen that it is not always possible to link problems with size $n$ to problems with just size $n-x$; this is where complete induction comes in; now our induction hypothesis assumes the predicate is true for all $k<n$
+- We have seen that it is not always possible to link problems with size $n$ to problems with just size $n-x$; this is where Complete Induction comes in; now our induction hypothesis assumes the predicate is true for all $k<n$
 	- Note the IH here is $(\forall k\in \mathbb{N}_{<n},P(k))$; we are assuming that $P$ is true for all $k<n$ and need to prove that this implies $P(n)$ for a fixed $n$, this is different from Simple Induction wherein the IH was simply $P(k)$ for a fixed $k$
-- Consider the lack of an explicit base case; if we expand out the antecedent in the principle of complete induction, the first term would be $\forall k\in \mathbb{N}_{<0},P(k)\implies P(0)$, within which the antecedent is vacuously true, so it is equivalent to $P(0)$
+- Consider the lack of an explicit base case; if we expand out the antecedent in the principle of Complete Induction, the first term would be $\forall k\in \mathbb{N}_{<0},P(k)\implies P(0)$, within which the antecedent is vacuously true, so it is equivalent to $P(0)$
 	- Then we consider that $P(0)$ will be implicitly clear in the proof; an example is the prime factorization proof by induction where instantiations with a prime number are all one special implicit base case; in such proofs, we simply set up $n$ and $k$, and assume the IH
 - However, **usually an explicit base case is needed**, so we prove $P(0)$ directly as a base case, then the full statement is: $P(0)\wedge(\forall n\in \mathbb{N},(\forall k\in \mathbb{N}_{<n},P(k))\implies P(n))\implies \forall n\in \mathbb{N},P(n)$
 	- In such proofs, we prove the bases directly, then set up $n$ and $k$ and assume the IH, and prove $P(n)$ directly from there
 		- This order is important as the lower bound for $n$ will be the point at which we have recourse to the base cases!
 - When proving a predicate for **naturals greater than or equal to some constant** $c$, we prove $P(c)$ and any other necessary base cases directly, then we assume in the IH that the predicate holds for all $c\leq k<n$
-	- The whole statement becomes $P(c)\wedge(\forall n\in \mathbb{N}_{>c},(\forall k\in \mathbb{N},(c\leq k<n)\implies P(k))\implies P(n))\implies \forall n\in \mathbb{N}_{>c},P(n)$
-	- **Additional base cases** may be needed:
-		- First, we need $c\leq k$, so if we are using a result of our assumed IH such as $P(k-j)$, then we need $c\leq k-j$, so $c+j\leq k$, thus we need to prove cases $c$ to $c+j$ separately as base cases
+	- The whole statement becomes $P(c)\wedge(\forall n\in \mathbb{N}_{\geq c},(\forall k\in \mathbb{N},(c\leq k<n)\implies P(k))\implies P(n))\implies \forall n\in \mathbb{N}_{\geq c},P(n)$
+	- In the inductive step, the key is the **decomposition** of $n$ into smaller elements (ex. $k=n-3$), ie. finding valid smaller sizes of the problem to use the IH with
+		- Once we determine this decomposition, we must demonstrate for the $k$s that we use that $c\leq k<n$ and that $k\in \mathbb{N}$, and only then can we apply the IH to prove the implication of $P(n)$
+	- **Additional base cases** may be needed, depending on the nature of our decomposition:
+		- First, we need $c\leq k$, so if we are using a result of our assumed IH such as ex. $P(k-j)$, then we need $c\leq k-j$, so $c+j\leq k$, thus we need to prove cases $c$ to $c+j$ separately as base cases
 		- Then, we need $k<n$, so if we are using a result of our assumed IH such as $P\left( \left\lceil  \frac{n+1}{2}  \right\rceil \right)$, we notice that $\left\lceil  \frac{n+1}{2}  \right\rceil\geq n$ for $0\leq n<3$, so we need to prove cases $P(0)\wedge P(1)\wedge P(2)$ as base cases
 		- Note, these considerations depend on what relationship we are actually using in the arithmetic of the proof itself
 			- Sometimes there is **no strict relation**, ex. binary trees and height, we may take the two subtrees $t_{l},t_{r}$ of an arbitrary tree of $h\geq 2$ and apply the IH since we know $h_{t_{l}},h_{t_{r}}<h$ but we don't know the exact difference
-			- The statement of induction cannot take all of this into account initially, it will be elucidated as we try to use our IH to prove $P(n)$
+	- The statement of induction sometimes cannot take all of this into account initially; the necessary base cases and the decomposition of $n$ will become elucidated as we try to use our IH to prove $P(n)$
 # <u>Recursively Defined Sets and Structural Induction</u>
 Induction can also be used to **define sets**:
 - First, define the **basis** which is the **smallest or simplest object** (or multiple objects!) in the set
@@ -63,7 +65,7 @@ Logically, we want to **prove properties about sets defined by recursion, by usi
 	- We prove that the basis elements satisfy $P$
 	- Then, we prove that **each** of the finitely many ways of constructing new objects with the recursive rules in the induction step preserves property $P$; that is, if arbitrary elements of $X$ satisfy $P$, then so does the result formed from combining them by a recursive rule
 		- This is equivalent to the induction step from previous forms of induction; we take arbitrary elements of $X$ and assume they satisfy $P$ (which is equivalent to assuming the IH), and prove that $P$ is preserved under **each** of the recursive rules
-		- These proofs often introduce multiple arbitrary elements (since further elements are made by combining others); so, recall that multiple variables can instantiate the same value unless explicitly stated as for ex.: $x_{1}\neq x_{2}$
+		- These proofs often introduce multiple arbitrary elements (since further elements are made by combining others); so, **recall that multiple variables can instantiate the same value** unless explicitly stated .: $x_{1}\neq x_{2}$
 
 **Binary trees** can be represented as recursively defined sets, where the **base objects** are represented as **single node trees** or **empty trees** (depending on the problem), and constructed objects are larger trees whose subtrees are the simpler objects
 - Our formatting:
@@ -81,3 +83,4 @@ Logically, we want to **prove properties about sets defined by recursion, by usi
 	- $P(t_{e})\wedge[\forall t_{l},t_{r}\in T,(P(t_{l})\wedge P(t_{r}))\implies P((t_{l},t_{r}))]\implies \forall t\in T,P(t)$
 		- We prove that the basis element (the empty tree $t_{e}$) satisfies $P$
 		- Then, we assume two arbitrary trees which satisfy $P$ and prove that under the one recursive rule for creating all other objects in the set of binary trees, the property $P$ is maintained
+		- If there are **multiple recursive rules** (ex. one building from one arbitrary element, another building from multiple), then we also get **multiple IHs** and in turn prove each separately 
