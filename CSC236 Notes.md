@@ -47,7 +47,7 @@ To prove **recursive correctness**:
 		- Note, these considerations depend on what relationship we are actually using in the arithmetic of the proof itself
 			- Sometimes there is **no strict relation**, ex. binary trees and height, we may take the two subtrees $t_{l},t_{r}$ of an arbitrary tree of $h\geq 2$ and apply the IH since we know $h_{t_{l}},h_{t_{r}}<h$ but we don't know the exact difference
 	- The statement of induction sometimes cannot take all of this into account initially; the necessary base cases and the decomposition of $n$ will become elucidated as we try to use our IH to prove $P(n)$
-# <u>Recursively Defined Sets and Structural Induction</u>
+# <u>Structural Induction and Recursively Defined Sets</u>
 Induction can also be used to **define sets**:
 - First, define the **basis** which is the **smallest or simplest object** (or multiple objects!) in the set
 - Then, define the induction step which defines the **recursive rule** (or multiple rules!) of how larger or more complicated objects in the set can be constructed from the smaller or simpler objects
@@ -82,4 +82,6 @@ Logically, we want to **prove properties about sets defined by recursion, by usi
 	- $P(t_{e})\wedge[\forall t_{l},t_{r}\in T,(P(t_{l})\wedge P(t_{r}))\implies P((t_{l},t_{r}))]\implies \forall t\in T,P(t)$
 		- We prove that the basis element (the empty tree $t_{e}$) satisfies $P$
 		- Then, we assume two arbitrary trees which satisfy $P$ and prove that under the one recursive rule for creating all other objects in the set of binary trees, the property $P$ is maintained
-		- If there are **multiple recursive rules** (ex. one building from one arbitrary element, another building from multiple), then we also get **multiple IHs** and in turn prove each separately 
+		- If there are **multiple recursive rules** (ex. one building from one arbitrary element, another building from multiple), then we also get **multiple IHs** and in turn prove each separately
+# <u>Iterative Correctness</u>
+A
