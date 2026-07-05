@@ -86,10 +86,10 @@ Logically, we want to **prove properties about sets defined by recursion, by usi
 # <u>Well-Ordering Principle</u>
 **Well-Ordering:** any **nonempty** subset of $\mathbb{N}$ contains a minimum element; ie. for any $A\subseteq \mathbb{N}$ such that $A\neq \emptyset$, we have $\exists a\in A,\forall a'\in A,a\leq a'$
 - Well-ordering applies to all nonempty subsets of $\mathbb{N}$, including infinite subsets
-- Well-ordering does not apply to all subsets of $\mathbb{Z}$ or $\mathbb{R}$; ex. $\{ \dots,-2,-1 \}$, or the set of all rational numbers between $0$ and $1$ (despite this set having an infimum $0$), so the property is not as trivial as it seems
+- Well-ordering does not apply to all subsets of $\mathbb{Z}$ or $\mathbb{R}$; ex. $\{ \dots,-2,-1 \}$, or the set of $\mathbb{Q}$ between $0$ and $1$ (despite this set having an infimum $0$), so the property is not as trivial as it seems
 - When using the WOP in proofs, we usually prove an existential on a universal variable, so we want to show that the minimum of some set can be used as the existentially quantified variable to satisfy what we want to prove:
 	- Define a set of quantities for which we want to find a minimum **for each instance** of the universally quantified variable; note, we **cannot** simply have the relationship that we want to prove as the set restriction!
-	- Justify why that **set is not empty for all instances** of the universal, usually by showing that there is an element equal to the universally quantified variable in the set, since the existential depends on the universal here
+	- Justify why that **set is not empty for all instances** of the universal, usually by simply showing that there is an element equal to the universally quantified variable in the set, since the existential depends on the universal here
 	- Recall, the **minimum is also an element of the set** and thus must satisfy the set restriction
 - The last step is to prove the facts that we need about the minimum; usually this takes one of two forms:
 	- The **contrapositive** form where we use the fact that elements less than the minimum are by definition not in our set and thus have the negation of the properties in the set restriction
