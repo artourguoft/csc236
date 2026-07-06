@@ -87,16 +87,18 @@ Logically, we want to **prove properties about sets defined by recursion, by usi
 **Well-Ordering:** any **nonempty** subset of $\mathbb{N}$ contains a minimum element; ie. for any $A\subseteq \mathbb{N}$ such that $A\neq \emptyset$, we have $\exists a\in A,\forall a'\in A,a\leq a'$
 - Well-ordering applies to all nonempty subsets of $\mathbb{N}$, including infinite subsets
 - Well-ordering does not apply to all subsets of $\mathbb{Z}$ or $\mathbb{R}$; ex. $\{ \dots,-2,-1 \}$, or the set of $\mathbb{Q}$ between $0$ and $1$ (despite this set having an infimum $0$), so the property is not as trivial as it seems
-- When using the WOP in proofs, we usually prove an existential on a universal variable, so we want to show that the minimum of some set can be used as the existentially quantified variable to satisfy what we want to prove:
+- When using the WOP in proofs, we usually prove an existential on a universal variable, so we want to show that the **minimum of some set** can be used as the **existentially quantified variable** to satisfy what we want to prove:
 	- Define a set of quantities for which we want to find a minimum **for each instance** of the universally quantified variable; note, we **cannot** simply have the relationship that we want to prove as the set restriction!
-	- Justify why that **set is not empty for all instances** of the universal, usually by simply showing that there is an element equal to the universally quantified variable in the set, since the existential depends on the universal here
+		- But we can (and almost always do) have part of the required relationship as a part of the set definition, ex. the upper bound of an inequality, then prove that the minimum of this set must also satisfy the lower bound
+	- Justify why that **set is not empty for all instances** of the universal, since the existential depends on the universal here
+		- Usually by simply showing that there is an element **equal to the universally quantified variable** in the set, or $0$, etc.
 	- Recall, the **minimum is also an element of the set** and thus must satisfy the set restriction
 - The last step is to prove the facts that we need about the minimum; usually this takes one of two forms:
 	- The **contrapositive** form where we use the fact that elements less than the minimum are by definition not in our set and thus have the negation of the properties in the set restriction
 		- Ex., for proving forms like $\forall n\in \mathbb{N}_{+},\exists k\in \mathbb{N},2^{k-1}\leq n < 2^k$  we define a set $S_{n}=\{ s \in \mathbb{N}:n<2^s \}$, then by definition $S_{n}\subseteq \mathbb{N}$ and $S_{n}\neq \emptyset$ since we always have $n\in S_{n}$ since $\forall n\in \mathbb{N}_{+},n<2^n$, and thus by WOP we know there exists a minimum element $s_{m}\in S_{n}$
 		- Then by contrapositive $(k\in S\iff n<2^k)\equiv (n\geq 2^k\iff k\not\in S)$, and $s_{m}-1<s_{m}\implies s_{m}-1 \not\in S\implies n\geq 2^{s_{m}-1}$, thus we take $k=s_{m}$ for each $S_{n}$
 		- Note, lower bound cases like $s_{m}=0$ might have to be handled directly and explicitly since we cannot subtract from $0$ and still be in $\mathbb{N}$, and then the case $s_{m}\geq 1$ can be handled generally
-	- The **contradiction** form where we need the minimum to equal to or less than or greater than another quantity, so suppose the negation and show that it leads to a contradiction; ie. we can find a smaller element
+	- The **contradiction** form where we need the minimum to be equal to or less than or greater than another quantity, so suppose the negation and show that it leads to a contradiction; ie. we can find a smaller element
 		- Ex., for proving forms like $\forall n\in \mathbb{N}_{+},\exists s,t\in \mathbb{N},n=s^2+t\wedge t\leq 2s$ we define a set $T_{n}=\{ t\in \mathbb{N}: \exists s,n=s^2+t\}$, then by definition $T_{n}\subseteq \mathbb{N}$ and $T_{n}\neq \emptyset$ since we always have $n\in T_{n}$ since $n=0^2+n$, and thus WOP we know there exists a minimum element $t_{m}\in T_{n}$
 		- Assume for contradiction that $t_{m}>2s$, then for $s'=s+1$ we have $n=(s')^2+t_{m}=(s+1)^2+t_{m}=s^2+2s+1+t_{m}$ which must mean $a$
 # <u>Iterative Correctness</u>
