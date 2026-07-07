@@ -92,14 +92,17 @@ Logically, we want to **prove properties about sets defined by recursion, by usi
 		- But we can (and almost always do) have part of the required relationship as a part of the set definition, ex. the upper bound of an inequality, then prove that the minimum of this set must also satisfy the lower bound
 	- Justify why that **set is not empty for all instances** of the universal, since the existential depends on the universal here
 		- Usually by simply showing that there is an element **equal to the universally quantified variable** in the set, or $0$, etc.
-	- Recall, the **minimum is also an element of the set** and thus must satisfy the set restriction
+	- Recall, the **minimum is also an element of the set** and thus must satisfy the bounds of the set restriction; this becomes important for the **lower bound** since we are working with a minimum
+		- Ex. we may explicitly have to show the behaviour of the minimum if it is $0$, and then the general proof follows for cases greater than $0$ since then the minimum less $1$ is still in $\mathbb{N}$ but not in the defined set, etc.
 - The last step is to prove the facts that we need about the minimum; usually this takes one of two forms:
-	- The **contrapositive** form where we use the fact that elements less than the minimum are by definition not in our set and thus have the negation of the properties in the set restriction
-		- Ex., for proving forms like $\forall n\in \mathbb{N}_{+},\exists k\in \mathbb{N},2^{k-1}\leq n < 2^k$  we define a set $S_{n}=\{ s \in \mathbb{N}:n<2^s \}$, then by definition $S_{n}\subseteq \mathbb{N}$ and $S_{n}\neq \emptyset$ since we always have $n\in S_{n}$ since $\forall n\in \mathbb{N}_{+},n<2^n$, and thus by WOP we know there exists a minimum element $s_{m}\in S_{n}$
-		- Then by contrapositive $(k\in S\iff n<2^k)\equiv (n\geq 2^k\iff k\not\in S)$, and $s_{m}-1<s_{m}\implies s_{m}-1 \not\in S\implies n\geq 2^{s_{m}-1}$, thus we take $k=s_{m}$ for each $S_{n}$
-		- Note, lower bound cases like $s_{m}=0$ might have to be handled directly and explicitly since we cannot subtract from $0$ and still be in $\mathbb{N}$, and then the case $s_{m}\geq 1$ can be handled generally
-	- The **contradiction** form where we need the minimum to be equal to or less than or greater than another quantity, so suppose the negation and show that it leads to a contradiction; ie. we can find a smaller element
-		- Ex., for proving forms like $\forall n\in \mathbb{N}_{+},\exists s,t\in \mathbb{N},n=s^2+t\wedge t\leq 2s$ we define a set $T_{n}=\{ t\in \mathbb{N}: \exists s,n=s^2+t\}$, then by definition $T_{n}\subseteq \mathbb{N}$ and $T_{n}\neq \emptyset$ since we always have $n\in T_{n}$ since $n=0^2+n$, and thus WOP we know there exists a minimum element $t_{m}\in T_{n}$
-		- Assume for contradiction that $t_{m}>2s$, then for $s'=s+1$ we have $n=(s')^2+t_{m}=(s+1)^2+t_{m}=s^2+2s+1+t_{m}$ which must mean $a$
+	- The **contrapositive** form where we use the fact that elements less (namely by $1$) than the minimum are by definition not in our set and thus satisfy the negation of the properties in the set restriction
+	- The **contradiction** form where we assume that the minimum satisfies the negation of the properties of our set restriction, and show that it leads to a contradiction; ie. we can find a smaller element than the supposed minimum
+- Ex., for $\forall n\in \mathbb{N}_{+},\exists k\in \mathbb{N},2^{k-1}\leq n < 2^k$ we define a set $S_{n}=\{ k \in \mathbb{N}:n<2^k \}$, then by definition $S_{n}\subseteq \mathbb{N}$ and $S_{n}\neq \emptyset$ since we always have $n\in S_{n}$ since $\forall n\in \mathbb{N}_{+},n<2^n$, and thus by WOP we know there exists a minimum element $k_{m}\in S_{n}$ and by definition $n<2^{k_{m}}$
+	- We know $k_{m}\neq 0$ since $2^{k_{m}}=2^0=1$ and $n\in \mathbb{N}_{+}$ so we cannot have $n<1=2^{k_{m}}$; so $k_{m}\geq 1$
+		- By contrapositive: we know $k_{m}-1\in \mathbb{N}$ since $k_{m}\geq 1$, then $k_{m}-1<k_{m}\implies k_{m}-1 \not\in S\implies 2^{k_{m}-1}\leq n$
+		- By contradiction: assume that $n< 2^{k_{m}-1}$, but $k_{m}-1\in \mathbb{N}$ since $k_{m}\geq 1$ and by definition $k_{m}-1\in S$; but since $k_{m}-1<k_{m}$ this contradicts that $k_{m}$ is the minimum of $S$, and thus it must be that $2^{k_{m}-1}\leq n$
+- Ex., for $\forall n\in \mathbb{N}_{+},\exists s,t\in \mathbb{N},n=s^2+t\wedge t\leq 2s$ we define a set $S_{n}=\{ t\in \mathbb{N}: \exists s \in \mathbb{N},n=s^2+t\}$, then by definition $S_{n}\subseteq \mathbb{N}$ and $S_{n}\neq \emptyset$ since $n\in S_{n}$ from $n=0^2+n$, and thus by WOP we know there exists a minimum element $t_{m}\in S_{n}$ where $\exists s_{m} \in \mathbb{N}$ where $n=s_{m}^2+t_{m}$
+	- By contradiction: assume that $t_{m}>2s_{m}$, then $t_{m}\geq 2s_{m}+1$, then $n=s_{m}^2+(2s_{m}+1)+t_{m}-(2s_{m}+1)=(s_{m}+1)^2+(t_{m}-2s_{m}-1)$
+		- But $t_{m}-2s_{m}-1\in \mathbb{N}$ since $t_{m}\geq 2s_{m}+1$, and then by definition $t_{m}-2s_{m}-1\in S_{n}$ and $t_{m}-2s_{m}-1<t_{m}$ which contradicts the minimality of $t_{m}$, and thus it must be that $t_{m}\leq 2s_{m}$
 # <u>Iterative Correctness</u>
 A
