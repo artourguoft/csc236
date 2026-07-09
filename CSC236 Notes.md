@@ -105,4 +105,45 @@ Logically, we want to **prove properties about sets defined by recursion, by usi
 	- By contradiction: assume that $t_{m}>2s_{m}$, then $t_{m}\geq 2s_{m}+1$, then $n=s_{m}^2+(2s_{m}+1)+t_{m}-(2s_{m}+1)=(s_{m}+1)^2+(t_{m}-2s_{m}-1)$
 		- But $t_{m}-2s_{m}-1\in \mathbb{N}$ since $t_{m}\geq 2s_{m}+1$, and then by definition $t_{m}-2s_{m}-1\in S_{n}$ and $t_{m}-2s_{m}-1<t_{m}$ which contradicts the minimality of $t_{m}$, and thus it must be that $t_{m}\leq 2s_{m}$
 # <u>Iterative Correctness</u>
-A
+First we introduce new terminology and two types of predicates, regarding iterative correctness proofs:
+- **Initialization:** this is the code before the loop which generally sets up variables necessary for the loop
+- **Condition:** this is the logical or arithmetic check which determines whether the loop iterates or not; we use the predicate $C_{k}(\dots)$ which is the condition right before the $k^{th}$ iteration of the loop
+	- The correct predicate to use as the condition is explicitly clear in the code as the loop condition
+- **Iteration:** one execution of the entire loop body while the condition is true
+- **Loop Invariant:** the predicate $I_{k}(\dots)$ is **always true** (before and after every iteration of the loop) and captures how the function changes values as it attempts to reach the postcondition
+	- This predicate requires some creativity but is usually going to be some combination of the preconditions and postconditions
+	- Optimally we want one invariant that captures the essential relationship among all important variables; generally all of:
+		- Important input parameters
+		- Variables that change in the loop
+		- Relationships preserved by the loop body
+- **Loop Variant:** the loop variant $V_{k}$ is a function (but not a predicate) of some variable(s) in the iterative function, somewhat similar to the size function in recursive correctness proof
+	- The loop invariant is used to prove **termination**; that the loop does not run infinitely, while the previous predicates were used to prove the **validity** of each loop step
+	- The loop variant should be always be a **natural number**, and **strictly decrease** on each loop iteration (so the loop cannot run forever, since there is no infinitely decreasing sequence in $\mathbb{N}$ by WOP)
+
+The symbolic forms of these proofs:
+$$
+(\text{Pre}\implies I_{0})\wedge [\forall k\in \mathbb{N},(I_{k}\wedge C_{k})\implies I_{k+1}] \tag{Invariant}
+$$
+$$
+(\text{Pre}\implies V_{0}\in \mathbb{N})\wedge [\forall k\in \mathbb{N},(V_{k}\in \mathbb{N}\wedge C_{k})\implies V_{k+1}\in \mathbb{N}\wedge V_{k}>V_{k+1}] \tag{Variant}
+$$
+Now the Simple Induction that we perform in these proofs becomes clear:
+- For the **Invariant**:
+	- Base Case: $\text{Pre}\implies I_{0}$
+	- Induction Hypothesis: $I_{k}\wedge C_{k}$
+- For the **Variant**:
+	- Base Case: $\text{Pre}\implies V_{0}\in \mathbb{N}$
+	- Induction Hypothesis: $V_{k}\in \mathbb{N}\wedge C_{k}$
+
+Lastly, as we did with recursive correctness we need to prove that the function ultimately returns a value (or values) that satisfies the postcondition
+- However, this follows directly from the fact that upon loop termination after $k-1$ iterations, we have $I_{k}$ and $\neg C_{k}$, and we can conclude that the postcondition is satisfied directly from these facts
+
+To prove **iterative correctness**:
+1. **Define the loop variant function**; generally for a function `func(n)` take `V(n) = n`
+2. **Variant base case**; show that the precondition predicate being true implies that $V_{0}\in \mathbb{N}$ (the loop variant after initialization but immediately before the very first loop iteration)
+3. **Variant inductive step**; show that if we have $C_{k}$ and assume $V_{k}\in \mathbb{N}$ immediately **before** the $k^{th}$ iteration, then after that iteration we will have $V_{k+1}\in \mathbb{N}$ and $V_{k}>V_{k+1}$
+4. **Invariant Base case**; show that the precondition predicate being true implies that $I_{0}$ (the loop invariant after initialization immediately before the very first loop iteration) is true
+5. **Inductive step**; show that if we assume $I_{k}$ (and $C_{k}$) immediately **before** the $k+1^{st}$ iteration, then $I_{k+1}$ will hold immediately **after** that iteration (but $C_{k+1}$ may not!)
+6. **Correct final return value**; show how, given that at loop termination we have $\neg C_{k}$ and $I_{k}$, the function finally returns values that satisfy the postconditions
+7. **Valid calls**; throughout the entire function show that each call (even including control flow and operators!) is valid, ie. is being called with the correct types, returns the correct types, etc.
+
