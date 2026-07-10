@@ -110,15 +110,17 @@ First we introduce new terminology and two types of predicates, regarding iterat
 - **Condition:** this is the logical or arithmetic check which determines whether the loop iterates or not; we use the predicate $C_{k}(\dots)$ which is the condition right before the $k^{th}$ iteration of the loop
 	- The correct predicate to use as the condition is explicitly clear in the code as the loop condition
 - **Iteration:** one execution of the entire loop body while the condition is true
-- **Loop Invariant:** the predicate $I_{k}(\dots)$ is **always true** (before and after every iteration of the loop) and captures how the function changes values as it attempts to reach the postcondition
+- **Loop Invariant:** the predicate $I_{k}(\dots)$ is **true every time the loop condition is checked**
+	- The loop invariant is used to prove the **validity** of each loop step
 	- This predicate requires some creativity but is usually going to be some combination of the preconditions and postconditions
 	- Optimally we want one invariant that captures the essential relationship among all important variables; generally all of:
 		- Important input parameters
 		- Variables that change in the loop
-		- Relationships preserved by the loop body
-- **Loop Variant:** the loop variant $V_{k}$ is a function (but not a predicate) of some variable(s) in the iterative function, somewhat similar to the size function in recursive correctness proof
-	- The loop invariant is used to prove **termination**; that the loop does not run infinitely, while the previous predicates were used to prove the **validity** of each loop step
-	- The loop variant should be always be a **natural number**, and **strictly decrease** on each loop iteration (so the loop cannot run forever, since there is no infinitely decreasing sequence in $\mathbb{N}$ by WOP)
+		- **Relationships preserved** by the loop body
+	- A loop invariant is correct if it is always true at the beginning of every loop iteration, **including the loop check that fails**, causing the loop to terminate
+- **Loop Variant:** the loop variant $V_{k}$ is a function (but not a predicate) of some variable(s) in the iterative function which must always be a **natural number** and **strictly decrease** on each loop iteration
+	- The loop variant is used to prove **termination**; that the loop does not run infinitely
+	- The image of the $V_{k}$ function is a subset of $\mathbb{N}$ and can be viewed as a strictly decreasing sequence by definition, thus we can invoke WOP to deduce that the loop cannot run forever
 
 The symbolic forms of these proofs:
 $$
@@ -135,15 +137,16 @@ Now the Simple Induction that we perform in these proofs becomes clear:
 	- Base Case: $\text{Pre}\implies V_{0}\in \mathbb{N}$
 	- Induction Hypothesis: $V_{k}\in \mathbb{N}\wedge C_{k}$
 
-Lastly, as we did with recursive correctness we need to prove that the function ultimately returns a value (or values) that satisfies the postcondition
-- However, this follows directly from the fact that upon loop termination after $k-1$ iterations, we have $I_{k}$ and $\neg C_{k}$, and we can conclude that the postcondition is satisfied directly from these facts
+Lastly, as we did with recursive correctness we need to prove that the function ultimately returns a **correct** value (or values), ie. it satisfies the postcondition
+- However, this follows directly from the fact that upon loop termination we have $I_{k}$ and $\neg C_{k}$, and we can conclude that the postcondition is satisfied directly from these facts (assuming we designed a good invariant!)
 
 To prove **iterative correctness**:
-1. **Define the loop variant function**; generally for a function `func(n)` take `V(n) = n`
-2. **Variant base case**; show that the precondition predicate being true implies that $V_{0}\in \mathbb{N}$ (the loop variant after initialization but immediately before the very first loop iteration)
-3. **Variant inductive step**; show that if we have $C_{k}$ and assume $V_{k}\in \mathbb{N}$ immediately **before** the $k^{th}$ iteration, then after that iteration we will have $V_{k+1}\in \mathbb{N}$ and $V_{k}>V_{k+1}$
-4. **Invariant Base case**; show that the precondition predicate being true implies that $I_{0}$ (the loop invariant after initialization immediately before the very first loop iteration) is true
-5. **Inductive step**; show that if we assume $I_{k}$ (and $C_{k}$) immediately **before** the $k+1^{st}$ iteration, then $I_{k+1}$ will hold immediately **after** that iteration (but $C_{k+1}$ may not!)
-6. **Correct final return value**; show how, given that at loop termination we have $\neg C_{k}$ and $I_{k}$, the function finally returns values that satisfy the postconditions
-7. **Valid calls**; throughout the entire function show that each call (even including control flow and operators!) is valid, ie. is being called with the correct types, returns the correct types, etc.
+1. **Define the loop invariant predicate**; consider that you want this predicate to prove the validity of the function and the ultimate return of values that satisfy the postcondition
+2. **Define the loop variant function**; ex. for a loop that checks `while (i < n)` take `V = n - i`
+3. **Invariant base case**; show that the precondition being true implies that $I_{0}$ (the loop invariant after initialization immediately before the very first loop iteration) is true
+4. **Variant base case**; show that the precondition being true implies that $V_{0}\in \mathbb{N}$ (the loop variant after initialization but immediately before the very first loop iteration)
+5. **Invariant inductive step**; show that if we have $C_{k}$ and assume $I_{k}$ immediately **before** the $k^{th}$ iteration, then $I_{k+1}$ will hold immediately **after** that iteration (but $C_{k+1}$ may not!)
+6. **Variant inductive step**; show that if we have $C_{k}$ and assume $V_{k}\in \mathbb{N}$ immediately **before** the $k^{th}$ iteration, then after that iteration we will have $V_{k+1}\in \mathbb{N}$ and $V_{k}>V_{k+1}$
+7. **Correct final return value**; show how, given that at loop termination we have $\neg C_{k}$ and $I_{k}$, the function finally returns values that satisfy the postconditions
+8. **Valid calls**; throughout the entire function show that each call (even including control flow and operators!) is valid, ie. is being called with the correct types, returns the correct types, etc.
 
