@@ -131,10 +131,13 @@ First we introduce new terminology and two types of predicates, regarding iterat
 
 The symbolic forms of these proofs:
 $$
-(\text{Pre}\implies I_{0})\wedge [\forall k\in \mathbb{N},(I_{k}\wedge C_{k})\implies I_{k+1}] \tag{Invariants}
+(\text{Pre}\implies I_{0}^V)\wedge [\forall k\in \mathbb{N},(I_{k}^V\wedge C_{k})\implies I_{k+1}^V] \tag{Validity Invariant}
 $$
 $$
 (\text{Pre}\implies V_{0}\in \mathbb{N})\wedge [\forall k\in \mathbb{N},(V_{k}\in \mathbb{N}\wedge C_{k})\implies V_{k+1}\in \mathbb{N}\wedge V_{k}>V_{k+1}] \tag{Variant}
+$$
+$$
+???(\text{Pre}\implies I_{0}^P)\wedge [\forall k\in \mathbb{N},(I_{k}\wedge C_{k}^P)\implies I_{k+1}^P] \tag{CRV Invariant}
 $$
 Now the Simple Induction that we perform in these proofs becomes clear:
 - For **invariants**:
