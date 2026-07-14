@@ -114,9 +114,13 @@ First we introduce new terminology and two types of predicates, regarding iterat
 	- The correct predicate to use as the condition is explicitly clear in the code as the loop condition
 - **Iteration:** one execution of the entire loop body while the condition is true
 - **Loop Invariant:** the predicate $I_{k}(\dots)$ is **true every time the loop condition is checked**
-	- The loop invariant is used to prove the **validity** of each loop step
-	- This predicate requires some creativity but is usually going to be some combination of the preconditions and postconditions
-	- Optimally we want one invariant that captures the essential relationship among all important variables; generally all of:
+	- This is necessary for us to reason about all iterations of the loop, without something that is uniformly true among them we would need explicit values for each iteration
+	- The loop invariant is used to prove the **validity** of each loop step, and finally the **correct return value** in the end
+		- Note, sometimes this requires **multiple** separate loop invariants to prove each requirement
+		- These predicates may require some creativity, but usually:
+			- To prove **validity**; we use an invariant consisting of the **preconditions** and constraints needed for all operations in the loop body to be valid (ex. adding numbers, etc.)
+			- To prove **correct return value**; we use an invariant consisting of the **postconditions** (more on this a bit later)
+	- Optimally we want invariants that capture essential relationships among all important variables
 		- Important input parameters
 		- Variables that change in the loop
 		- **Relationships preserved** by the loop body
@@ -127,21 +131,21 @@ First we introduce new terminology and two types of predicates, regarding iterat
 
 The symbolic forms of these proofs:
 $$
-(\text{Pre}\implies I_{0})\wedge [\forall k\in \mathbb{N},(I_{k}\wedge C_{k})\implies I_{k+1}] \tag{Invariant}
+(\text{Pre}\implies I_{0})\wedge [\forall k\in \mathbb{N},(I_{k}\wedge C_{k})\implies I_{k+1}] \tag{Invariants}
 $$
 $$
 (\text{Pre}\implies V_{0}\in \mathbb{N})\wedge [\forall k\in \mathbb{N},(V_{k}\in \mathbb{N}\wedge C_{k})\implies V_{k+1}\in \mathbb{N}\wedge V_{k}>V_{k+1}] \tag{Variant}
 $$
 Now the Simple Induction that we perform in these proofs becomes clear:
-- For the **Invariant**:
+- For **invariants**:
 	- Base Case: $\text{Pre}\implies I_{0}$
 	- Induction Hypothesis: $I_{k}\wedge C_{k}$
-- For the **Variant**:
+- For the **variant**:
 	- Base Case: $\text{Pre}\implies V_{0}\in \mathbb{N}$
 	- Induction Hypothesis: $V_{k}\in \mathbb{N}\wedge C_{k}$
 
-Lastly, as we did with recursive correctness we need to prove that the function ultimately returns a **correct** value (or values), ie. it satisfies the postcondition
-- However, this follows directly from the fact that upon loop termination we have $I_{k}$ and $\neg C_{k}$, and we can conclude that the postcondition is satisfied directly from these facts (assuming we designed a good invariant!)
+With validity and termination proven, lastly we need to prove that the function ultimately has a **correct return value** (or values), ie. it satisfies the postconditions
+- However, this follows directly from the fact that upon loop termination we have $I$, and we now have $\neg C$, from which we can conclude that the postcondition is satisfied directly (assuming we designed a good invariant!)
 
 To prove **iterative correctness**:
 1. **Define the loop invariant predicate**; consider that you want this predicate to prove the validity of the function and the ultimate return of values that satisfy the postcondition
@@ -149,7 +153,6 @@ To prove **iterative correctness**:
 3. **Invariant base case**; show that the precondition being true implies that $I_{0}$ (the loop invariant after initialization immediately before the very first loop iteration) is true
 4. **Variant base case**; show that the precondition being true implies that $V_{0}\in \mathbb{N}$ (the loop variant after initialization but immediately before the very first loop iteration)
 5. **Invariant inductive step**; show that if we have $C_{k}$ and assume $I_{k}$ immediately **before** the $k^{th}$ iteration, then $I_{k+1}$ will hold immediately **after** that iteration (but $C_{k+1}$ may not!)
-6. **Variant inductive step**; show that if we have $C_{k}$ and assume $V_{k}\in \mathbb{N}$ immediately **before** the $k^{th}$ iteration, then after that iteration we will have $V_{k+1}\in \mathbb{N}$ and $V_{k}>V_{k+1}$
-7. **Correct final return value**; show how, given that at loop termination we have $\neg C_{k}$ and $I_{k}$, the function finally returns values that satisfy the postconditions
-8. **Valid calls**; throughout the entire function show that each call (even including control flow and operators!) is valid, ie. is being called with the correct types, returns the correct types, etc.
+6. **Variant inductive step**; show that if we have $C_{k}$ and assume $V_{k}\in \mathbb{N}$ immediately **before** the $k^{th}$ iteration, then **after** that iteration we will have $V_{k+1}\in \mathbb{N}$ and $V_{k}>V_{k+1}$
+7. **Correct final return value**; show how, given that at loop termination we have $\neg C$ and $I$, the function finally returns values that satisfy the postconditions
 
