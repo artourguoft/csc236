@@ -94,7 +94,7 @@ Logically, we want to **prove properties about sets defined by recursion, by usi
 		- Usually by simply showing that there is an element **equal to the universally quantified variable** in the set, or $0$, etc.
 	- Recall, the **minimum is also an element of the set** and thus must satisfy the bounds of the set restriction; this becomes important for the **lower bound** since we are working with a minimum
 		- Ex. we may explicitly have to show the behaviour of the minimum if it is $0$, and then the general proof follows for cases greater than $0$ since then the minimum less $1$ is still in $\mathbb{N}$ but not in the defined set, etc.
-		- In other cases we cannot explicitly reason about a specific lower bound; we start the proof (in one of the forms below) and can then deduce whether the minimum less $1$ is still in $\mathbb{N}$
+		- In other cases we cannot explicitly reason about a specific lower bound; we start the proof (in one of the forms below) and can then deduce whether the minimum less $1$ (or the new minimum in contradiction case) is still in $\mathbb{N}$
 - The last step is to prove the facts that we need about the minimum; usually this takes one of two forms:
 	- The **contrapositive** form where we use the fact that elements less (usually by $1$) than the minimum are by definition not in our set (but show they are still in $\mathbb{N}$) and thus satisfy the negation of the properties in the set restriction
 	- The **contradiction** form where we assume that the minimum satisfies the negation of the property we want to prove (**not** the set restriction!), and show that it leads to a contradiction; ie. we can find a smaller element than the supposed minimum (that satisfies the set restriction and is still in $\mathbb{N}$)
