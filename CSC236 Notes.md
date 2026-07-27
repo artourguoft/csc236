@@ -87,6 +87,7 @@ Logically, we want to **prove properties about sets defined by recursion, by usi
 **Well-Ordering:** any **nonempty** subset of $\mathbb{N}$ contains a minimum element; ie. for any $A\subseteq \mathbb{N}$ such that $A\neq \emptyset$, we have $\exists a\in A,\forall a'\in A,a\leq a'$
 - Well-ordering applies to all nonempty subsets of $\mathbb{N}$, including infinite subsets
 - Well-ordering does not apply to all subsets of $\mathbb{Z}$ or $\mathbb{R}$; ex. $\{ \dots,-2,-1 \}$, or the set of $\mathbb{Q}$ between $0$ and $1$ (despite this set having an infimum $0$), so the property is not as trivial as it seems
+- A common arithmetic relationship that is used in WOP proofs: $\forall m,n\in \mathbb{N}, m<n\implies (m+1\leq n)\wedge(m\leq n-1)$
 - When using the WOP in proofs, we usually prove an existential on a universal variable, so we want to show that the **minimum of some set** can be used as the **existentially quantified variable** to satisfy what we want to prove:
 	- Define a set of quantities for which we want to find a minimum **for each instance** of the universally quantified variable; note, we **cannot** simply have the relationship that we want to prove as the set restriction!
 		- But we can (and almost always do) have part of the required relationship as a part of the set definition, ex. the upper bound of an inequality, then prove that the minimum of this set must also satisfy the lower bound
@@ -97,16 +98,14 @@ Logically, we want to **prove properties about sets defined by recursion, by usi
 		- In other cases we cannot explicitly reason about a specific lower bound; we start the proof (in one of the forms below) and can then deduce whether the minimum less $1$ (or the new minimum in contradiction case) is still in $\mathbb{N}$
 - The last step is to prove the facts that we need about the minimum; usually this takes one of two forms:
 	- The **contrapositive** form where we use the fact that elements less (usually by $1$) than the minimum are by definition not in our set (but show they are still in $\mathbb{N}$) and thus satisfy the negation of the properties in the set restriction
-	- The **contradiction** form where we assume that the minimum satisfies the negation of the property we want to prove (**not** the set restriction!), and show that it leads to a contradiction; ie. we can find a smaller element than the supposed minimum (that satisfies the set restriction and is still in $\mathbb{N}$)
+	- The **contradiction** form where we assume that the minimum satisfies the negation of the property we want to prove (**not** the set restriction!), and show that it leads to a contradiction; ie. we can find a smaller element than the supposed minimum (that is still in $\mathbb{N}$ and satisfies the set restriction)
 - Ex., for $\forall n\in \mathbb{N}_{+},\exists k\in \mathbb{N},2^{k-1}\leq n < 2^k$ we define a set $S_{n}=\{ k \in \mathbb{N}:n<2^k \}$, then by definition $S_{n}\subseteq \mathbb{N}$ and $S_{n}\neq \emptyset$ since we always have $n\in S_{n}$ since $\forall n\in \mathbb{N}_{+},n<2^n$, and thus by WOP we know there exists a minimum element $k_{m}\in S_{n}$ and by definition $n<2^{k_{m}}$
 	- We know $k_{m}\neq 0$ since $2^{k_{m}}=2^0=1$ and $n\in \mathbb{N}_{+}$ so we cannot have $n<1=2^{k_{m}}$; so $k_{m}\geq 1$
 		- By contrapositive: we know $k_{m}-1\in \mathbb{N}$ since $k_{m}\geq 1$, then $k_{m}-1<k_{m}\implies k_{m}-1 \not\in S\implies 2^{k_{m}-1}\leq n$
 		- By contradiction: assume that $n< 2^{k_{m}-1}$, but $k_{m}-1\in \mathbb{N}$ since $k_{m}\geq 1$ and by definition $k_{m}-1\in S$; but since $k_{m}-1<k_{m}$ this contradicts that $k_{m}$ is the minimum of $S$, and thus it must be that $2^{k_{m}-1}\leq n$
 - Ex., for $\forall n\in \mathbb{N}_{+},\exists s,t\in \mathbb{N},n=s^2+t\wedge t\leq 2s$ we define a set $S_{n}=\{ t\in \mathbb{N}: \exists s \in \mathbb{N},n=s^2+t\}$, then by definition $S_{n}\subseteq \mathbb{N}$ and $S_{n}\neq \emptyset$ since $n\in S_{n}$ from $n=0^2+n$, and thus by WOP we know there exists a minimum element $t_{m}\in S_{n}$ where $\exists s_{m} \in \mathbb{N}$ where $n=s_{m}^2+t_{m}$
 	- By contradiction: assume that $t_{m}>2s_{m}$, then $t_{m}\geq 2s_{m}+1$, then $n=s_{m}^2+(2s_{m}+1)+t_{m}-(2s_{m}+1)=(s_{m}+1)^2+(t_{m}-2s_{m}-1)$
-		- But $t_{m}-2s_{m}-1\in \mathbb{N}$ since $t_{m}\geq 2s_{m}+1$, and then by definition $t_{m}-2s_{m}-1\in S_{n}$ and $t_{m}-2s_{m}-1<t_{m}$ which contradicts the minimality of $t_{m}$, and thus it must be that $t_{m}\leq 2s_{m}$
-- A common arithmetic relationship that is used in WOP proofs, for $m,n\in \mathbb{N}$:
-	- $m<n\implies (m+1\leq n)\wedge(m\leq n-1)$
+		- But $t_{m}-2s_{m}-1\in \mathbb{N}$ since $t_{m}\geq 2s_{m}+1$, and then by definition $t_{m}-2s_{m}-1\in S_{n}$ with $s=s_{m}+1$, but $t_{m}-2s_{m}-1<t_{m}$ which contradicts the minimality of $t_{m}$, and thus it must be that $t_{m}\leq 2s_{m}$
 # <u>Iterative Correctness</u>
 First we introduce new terminology and two types of predicates, regarding iterative correctness proofs:
 - **Initialization:** this is the code before the loop which generally sets up variables necessary for the loop
@@ -114,45 +113,41 @@ First we introduce new terminology and two types of predicates, regarding iterat
 	- The correct predicate to use as the condition is explicitly clear in the code as the loop condition
 - **Iteration:** one execution of the entire loop body while the condition is true
 - **Loop Invariant:** the predicate $I_{k}(\dots)$ is **true every time the loop condition is checked**
-	- This is necessary for us to reason about all iterations of the loop, without something that is uniformly true among them we would need explicit values for each iteration
-	- The loop invariant is used to prove the **validity** of each loop step, and finally the **correct return value** in the end
-		- Note, sometimes this requires **multiple loop invariants** to prove each requirement
+	- This is necessary for us to reason about **all** iterations of the loop; without something that is uniformly true among them we would need explicit values for each iteration
+		- Thus a loop invariant is correct if it is always true at the beginning of every loop iteration, **including the loop check that fails**, causing the loop to terminate
+	- Loop invariants are used to prove the **validity** of each loop step, and finally the **correct return value** in the end
+		- Note, this often requires **separate loop invariants** to prove each requirement
 		- These predicates may require some creativity, but usually:
-			- To prove **validity**; we use an invariant consisting of the **preconditions** and constraints needed for all operations in the loop body to be valid (ex. adding numbers, etc.)
-			- To prove **correct return value**; we use an invariant consisting of the **postconditions** (more on this a bit later)
-	- Optimally we want invariants that capture essential relationships among all important variables
-		- Important input parameters
+			- To prove **validity**; we use an invariant $I^V$ consisting of the **preconditions** and constraints needed for all operations in the loop body to be valid (ex. list indices remaining valid, etc.)
+			- To prove **correct return value**; we use an invariant $I^P$ consisting of the **postconditions** (more on this a bit later)
+	- Optimally we want invariants to capture essential relationships among:
 		- Variables that change in the loop
-		- **Relationships preserved** by the loop body
-	- A loop invariant is correct if it is always true at the beginning of every loop iteration, **including the loop check that fails**, causing the loop to terminate
-- **Loop Variant:** the loop variant $V_{k}$ is a function (but not a predicate) of some variable(s) in the iterative function which must always be a **natural number** and **strictly decrease** on each loop iteration
+		- **Relationships preserved** by the loop body on each iteration
+- **Loop Variant:** the loop variant $V_{k}$ is a function (but **not a predicate**) of some variable(s) in the iterative function which must always be a **natural number** and **strictly decrease** on each loop iteration
 	- The loop variant is used to prove **termination**; that the loop does not run infinitely
-	- The image of the $V_{k}$ function is a subset of $\mathbb{N}$ and can be viewed as a strictly decreasing sequence by definition, thus we can invoke WOP to deduce that the loop cannot run forever
+	- We prove that the image of the $V_{k}$ function is a subset of $\mathbb{N}$ and is a strictly decreasing sequence, and thus we can invoke WOP to deduce that the loop cannot run forever
+	- A common ex.; for a loop that checks `while (i < n)` we define `V = n - i`
+		- A more complex ex.; for a loop that checks `while (a > 0 or b > 0)` and decrements either variable, we define `V = a + b`
 
 The symbolic forms of these proofs:
 $$
-(\text{Pre}\implies I_{0}^V)\wedge [\forall k\in \mathbb{N},(I_{k}^V\wedge C_{k})\implies I_{k+1}^V] \tag{Validity Invariant}
+(\text{Pre}\implies I_{0})\wedge [\forall k\in \mathbb{N},(I_{k}\wedge C_{k})\implies I_{k+1}] \tag{Invariants}
 $$
 $$
-(\text{Pre}\implies V_{0}\in \mathbb{N})\wedge [\forall k\in \mathbb{N},(V_{k}\in \mathbb{N}\wedge C_{k})\implies V_{k+1}\in \mathbb{N}\wedge V_{k}>V_{k+1}] \tag{Variant}
+(\text{Pre}\implies V_{0}\in \mathbb{N})\wedge [\forall k\in \mathbb{N},(V_{k}\in \mathbb{N}\wedge I_{k}\wedge C_{k})\implies V_{k+1}\in \mathbb{N}\wedge V_{k}>V_{k+1}] \tag{Variants}
 $$
 Now the Simple Induction that we perform in these proofs becomes clear:
 - For **invariants**:
 	- Base Case: $\text{Pre}\implies I_{0}$
 	- Induction Hypothesis: $I_{k}\wedge C_{k}$
-- For the **variant**:
+- For **variants**:
 	- Base Case: $\text{Pre}\implies V_{0}\in \mathbb{N}$
-	- Induction Hypothesis: $V_{k}\in \mathbb{N}\wedge C_{k}$
+	- Induction Hypothesis: $V_{k}\in \mathbb{N}\wedge I_{k}\wedge C_{k}$
+- The preconditions implying the invariants and variant immediately **before the first loop iteration** are the base cases, and the states of the predicates before some arbitrary loop iteration are the induction hypotheses
+	- Note that the variant proof may rely on an already proven invariant!
 
-With validity and termination proven, lastly we need to prove that the function ultimately has a **correct return value** (or values), ie. it satisfies the postconditions
-- However, this follows directly from the fact that upon loop termination we have $I^P$, and we now have $\neg C$, from which we can conclude that the postcondition is satisfied directly (assuming we designed a good invariant!)
-
-To prove **iterative correctness**:
-1. **Define the loop invariant predicate**; consider that you want this predicate to prove the validity of the function and the ultimate return of values that satisfy the postcondition
-2. **Define the loop variant function**; ex. for a loop that checks `while (i < n)` take `V = n - i`
-3. **Invariants base case**; show that the precondition being true implies that $I_{0}$ (the loop invariants after initialization immediately before the very first loop iteration) is true
-4. **Variant base case**; show that the precondition being true implies that $V_{0}\in \mathbb{N}$ (the loop variant after initialization but immediately before the very first loop iteration)
-5. **Invariants inductive step**; show that if we have $C_{k}$ and assume $I_{k}$ immediately **before** the $k^{th}$ iteration, then $I_{k+1}$ will hold immediately **after** that iteration (but $C_{k+1}$ may not!)
-6. **Variant inductive step**; show that if we have $C_{k}$ and assume $V_{k}\in \mathbb{N}$ immediately **before** the $k^{th}$ iteration, then **after** that iteration we will have $V_{k+1}\in \mathbb{N}$ and $V_{k}>V_{k+1}$
-7. **Correct final return value**; show how, given that at loop termination we have $\neg C$ and $I$, the function finally returns values that satisfy the postconditions
-
+With validity and termination proven, we prove that the function ultimately has a **correct return value(s)**, ie. that it satisfies the postconditions
+- This follows directly from the fact that upon loop termination we have $I^P$ (by invariant proof) and $\neg C$ (by definition), from which we can conclude that the postconditions are satisfied directly (assuming we designed a good invariant!)
+$$
+I^P\wedge\neg C\implies \text{function Post are satisfied} \tag{Correct Return Values}
+$$
