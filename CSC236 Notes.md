@@ -94,18 +94,18 @@ Logically, we want to **prove properties about sets defined by recursion, by usi
 	- Justify why that **set is not empty for all instances** of the universal, since the existential depends on the universal here
 		- Usually by simply showing that there is an element **equal to the universally quantified variable** in the set, or $0$, etc.
 	- Recall, the **minimum is also an element of the set** and thus must satisfy the bounds of the set restriction; this becomes important for the **lower bound** since we are working with a minimum
-		- Ex. we may explicitly have to show the behaviour of the minimum if it is $0$, and then the general proof follows for cases greater than $0$ since then the minimum less $1$ is still in $\mathbb{N}$ but not in the defined set, etc.
-		- In other cases we cannot explicitly reason about a specific lower bound; we start the proof (in one of the forms below) and can then deduce whether the minimum less $1$ (or the new minimum in contradiction case) is still in $\mathbb{N}$
+		- We may explicitly have to show the behaviour of the minimum if it is $0$, and then the general proof follows for greater cases
+		- In most cases we cannot explicitly reason about a specific lower bound; we start the proof and can then deduce whether any new minimums we find are still in $\mathbb{N}$ as we go
 - The last step is to prove the facts that we need about the minimum; usually this takes one of two forms:
-	- The **contrapositive** form where we use the fact that elements less (usually by $1$) than the minimum are by definition not in our set (but show they are still in $\mathbb{N}$) and thus satisfy the negation of the properties in the set restriction
 	- The **contradiction** form where we assume that the minimum satisfies the negation of the property we want to prove (**not** the set restriction!), and show that it leads to a contradiction; ie. we can find a smaller element than the supposed minimum (that is still in $\mathbb{N}$ and satisfies the set restriction)
-- Ex., for $\forall n\in \mathbb{N}_{+},\exists k\in \mathbb{N},2^{k-1}\leq n < 2^k$ we define a set $S_{n}=\{ k \in \mathbb{N}:n<2^k \}$, then by definition $S_{n}\subseteq \mathbb{N}$ and $S_{n}\neq \emptyset$ since we always have $n\in S_{n}$ since $\forall n\in \mathbb{N}_{+},n<2^n$, and thus by WOP we know there exists a minimum element $k_{m}\in S_{n}$ and by definition $n<2^{k_{m}}$
-	- We know $k_{m}\neq 0$ since $2^{k_{m}}=2^0=1$ and $n\in \mathbb{N}_{+}$ so we cannot have $n<1=2^{k_{m}}$; so $k_{m}\geq 1$
-		- By contrapositive: we know $k_{m}-1\in \mathbb{N}$ since $k_{m}\geq 1$, then $k_{m}-1<k_{m}\implies k_{m}-1 \not\in S\implies 2^{k_{m}-1}\leq n$
-		- By contradiction: assume that $n< 2^{k_{m}-1}$, but $k_{m}-1\in \mathbb{N}$ since $k_{m}\geq 1$ and by definition $k_{m}-1\in S$; but since $k_{m}-1<k_{m}$ this contradicts that $k_{m}$ is the minimum of $S$, and thus it must be that $2^{k_{m}-1}\leq n$
+	- The **contrapositive** form where we prove a lemma that for any element of the set that satisfies the negation of the property we want to prove (**not** the set restriction) we can find a smaller element, and by contrapositive of that lemma conclude that the minimum satisfies the desired property
+- Ex., for $\forall n\in \mathbb{N}_{+},\exists k\in \mathbb{N},2^{k-1}\leq n < 2^k$ we define a set $S_{n}=\{ k \in \mathbb{N}:n<2^k \}$, then by definition $S_{n}\subseteq \mathbb{N}$ and $S_{n}\neq \emptyset$ since we always have $n\in S_{n}$ since $\forall n\in \mathbb{N}_{+},n<2^n$, and thus by WOP we know there exists a minimum element $k_{m}\in S_{n}$ where $n<2^{k_{m}}$
+	- We know $k\neq 0$ since $2^k=2^0=1$ and $n\in \mathbb{N}_{+}$ so we cannot have $n<1=2^k$; so $k\geq 1$
+	- By contradiction: assume that $n< 2^{k_{m}-1}$, but $k_{m}-1\in \mathbb{N}$ since $k_{m}\geq 1$ and by definition $k_{m}-1\in S$; but since $k_{m}-1<k_{m}$ this contradicts that $k_{m}$ is the minimum of $S$, and thus it must be that $2^{k_{m}-1}\leq n$
+	- By contrapositive: we start by proving the lemma $\forall k\in S_{n},n<2^{k-1}\implies \exists k'\in S_{n},k'<k$ by taking $k'=k-1$, where $k-1\in \mathbb{N}$ since $k\geq 1$ and $k-1\in S_{n}$ by definition, then the contrapositive is $\forall k\in S_{n},\forall k'\in S_{n},k'\geq k \implies n\geq 2^{k-1}$ as needed
 - Ex., for $\forall n\in \mathbb{N}_{+},\exists s,t\in \mathbb{N},n=s^2+t\wedge t\leq 2s$ we define a set $S_{n}=\{ t\in \mathbb{N}: \exists s \in \mathbb{N},n=s^2+t\}$, then by definition $S_{n}\subseteq \mathbb{N}$ and $S_{n}\neq \emptyset$ since $n\in S_{n}$ from $n=0^2+n$, and thus by WOP we know there exists a minimum element $t_{m}\in S_{n}$ where $\exists s_{m} \in \mathbb{N}$ where $n=s_{m}^2+t_{m}$
 	- By contradiction: assume that $t_{m}>2s_{m}$, then $t_{m}\geq 2s_{m}+1$, then $n=s_{m}^2+(2s_{m}+1)+t_{m}-(2s_{m}+1)=(s_{m}+1)^2+(t_{m}-2s_{m}-1)$
-		- But $t_{m}-2s_{m}-1\in \mathbb{N}$ since $t_{m}\geq 2s_{m}+1$, and then by definition $t_{m}-2s_{m}-1\in S_{n}$ with $s=s_{m}+1$, but $t_{m}-2s_{m}-1<t_{m}$ which contradicts the minimality of $t_{m}$, and thus it must be that $t_{m}\leq 2s_{m}$
+		- But $t_{m}-2s_{m}-1\in \mathbb{N}$ since $t_{m}\geq 2s_{m}+1$, and then by definition $t_{m}-2s_{m}-1\in S_{n}$ with $s=s_{m}+1\in \mathbb{N}$, but $t_{m}-2s_{m}-1<t_{m}$ which contradicts the minimality of $t_{m}$, and thus it must be that $t_{m}\leq 2s_{m}$
 # <u>Iterative Correctness</u>
 First we introduce new terminology and two types of predicates, regarding iterative correctness proofs:
 - **Initialization:** this is the code before the loop which generally sets up variables necessary for the loop
@@ -149,5 +149,5 @@ Now the Simple Induction that we perform in these proofs becomes clear:
 With validity and termination proven, we prove that the function ultimately has a **correct return value(s)**, ie. that it satisfies the postconditions
 - This follows directly from the fact that upon loop termination we have $I^P$ (by invariant proof) and $\neg C$ (by definition), from which we can conclude that the postconditions are satisfied directly (assuming we designed a good invariant!)
 $$
-I^P\wedge\neg C\implies \text{function Post are satisfied} \tag{Correct Return Values}
+I^P\wedge\neg C\implies \text{Post satisfied on return} \tag{Correct Return Values}
 $$
