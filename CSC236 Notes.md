@@ -109,19 +109,18 @@ Logically, we want to **prove properties about sets defined by recursion, by usi
 First we introduce new terminology and two types of predicates, regarding iterative correctness proofs:
 - **Initialization:** this is the code before the loop which generally sets up variables necessary for the loop
 - **Condition:** this is the logical or arithmetic check which determines whether the loop iterates or not; we use the predicate $C_{k}(\dots)$ which is the condition right before the $k^{th}$ iteration of the loop
-	- The correct predicate to use as the condition is explicitly clear in the code as the loop condition
+	- The correct predicate to use as the condition is explicitly clear in the code as the loop condition; generally $C(i):i< \text{len(L)}$ where $i$ is the loop variable and $\text{L}$ is some list
 - **Iteration:** one execution of the entire loop body while the condition is true
 - **Loop Invariant:** the predicate $I_{k}(\dots)$ is **true every time the loop condition is checked**
 	- This is necessary for us to reason about **all** iterations of the loop; without something that is uniformly true among them we would need explicit values for each iteration
-		- Thus a loop invariant is correct if it is always true at the beginning of every loop iteration, **including the loop check that fails**, causing the loop to terminate
+		- Thus a loop invariant is correct if it is **always true at the beginning of every loop** iteration, **including the loop check that fails**, causing the loop to terminate
 	- Loop invariants are used to prove the **validity** of each loop step, and finally the **correct return value** in the end
 		- Note, this often requires **separate loop invariants** to prove each requirement
 		- These predicates may require some creativity, but usually:
-			- To prove **validity**; we use an invariant $I^V$ consisting of the **preconditions** and constraints needed for all operations in the loop body to be valid (ex. list indices remaining valid, etc.)
-			- To prove **correct return value**; we use an invariant $I^P$ consisting of the **postconditions** (more on this a bit later)
-	- Optimally we want invariants to capture essential relationships among:
-		- Variables that change in the loop
-		- **Relationships preserved** by the loop body on each iteration
+			- To prove **validity**; we use an invariant $I^V$ consisting of the **preconditions and loop constraints** needed for all operations in the loop body to be valid (ex. list indices remaining valid, etc.), most commonly:
+				- $I^V(i):i\in \mathbb{N}\wedge i\in[0:\text{len(L)}]$ where $i$ is the loop variable and $\text{L}$ is a list indexed from $0$
+				- Once we prove this invariant is always true, we can take this together with $C$ to conclude that inequality comparisons, list indexing, incrementing, etc. are all valid for all loop iterations
+			- To prove **correct return value**; we use an invariant $I^C$ consisting of the **postconditions** (more on this a bit later)
 - **Loop Variant:** the loop variant $V_{k}$ is a function (but **not a predicate**) of some variable(s) in the iterative function which must always be a **natural number** and **strictly decrease** on each loop iteration
 	- The loop variant is used to prove **termination**; that the loop does not run infinitely
 	- We prove that the image of the $V_{k}$ function is a subset of $\mathbb{N}$ and is a strictly decreasing sequence, and thus we can invoke WOP to deduce that the loop cannot run forever
@@ -136,17 +135,21 @@ $$
 (\text{Pre}\implies V_{0}\in \mathbb{N})\wedge [\forall k\in \mathbb{N},(V_{k}\in \mathbb{N}\wedge I_{k}\wedge C_{k})\implies V_{k+1}\in \mathbb{N}\wedge V_{k}>V_{k+1}] \tag{Variants}
 $$
 Now the Simple Induction that we perform in these proofs becomes clear:
-- For **invariants**:
+- For **invariants** (both validity and correct return values!):
 	- Base Case: $\text{Pre}\implies I_{0}$
 	- Induction Hypothesis: $I_{k}\wedge C_{k}$
 - For **variants**:
 	- Base Case: $\text{Pre}\implies V_{0}\in \mathbb{N}$
-	- Induction Hypothesis: $V_{k}\in \mathbb{N}\wedge I_{k}\wedge C_{k}$
+	- Induction Hypothesis: $V_{k}\in \mathbb{N}\wedge I^V_{k}\wedge C_{k}$
 - The preconditions implying the invariants and variant immediately **before the first loop iteration** are the base cases, and the states of the predicates before some arbitrary loop iteration are the induction hypotheses
-	- Note that the variant proof may rely on an already proven invariant!
+	- Note that the variant proof may rely on an already proven validity invariant!
+Note, these are only **proofs that the invariants and variant are always true** whenever the condition is checked; **direct proofs** of validity and termination (and correctness; more on that just below) themselves follow these proofs!
 
 With validity and termination proven, we prove that the function ultimately has a **correct return value(s)**, ie. that it satisfies the postconditions
-- This follows directly from the fact that upon loop termination we have $I^P$ (by invariant proof) and $\neg C$ (by definition), from which we can conclude that the postconditions are satisfied directly (assuming we designed a good invariant!)
+- This follows directly from the fact that upon loop termination we have $I^V$ and $I^C$ (by invariant proofs) and $\neg C$ (by definition), from which we can conclude that the postconditions are satisfied directly (assuming we designed a good invariant!)
 $$
-I^P\wedge\neg C\implies \text{Post satisfied on return} \tag{Correct Return Values}
+I^V\wedge\neg C\wedge I^C\implies \text{Post} \tag{Correct Return Values}
 $$
+At any $k^{th}$ loop iteration, we notice that the postcondition is satisfied for the slice $\text{L}[0:i_{k}]$; thus we usually define $I^C_{k}(i): \text{Post(L}[0:i_{k}])$
+- Then, on termination of the loop we have from $I^V$ that $i\leq \text{len(L)}$, and from $\neg C$ that $i\geq \text{len(L)}$, which together imply $i=\text{len(L)}$, from which we directly have $I^C(\text{len(L)})\equiv \text{Post(L}[0:\text{len(L)}])$; ie. the postconditions are satisfied for the entire input list as needed
+- Note, we assume Python list slicing conventions where the slice range is **exclusive** of the upper bound despite notation implying otherwise!
