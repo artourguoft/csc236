@@ -150,6 +150,6 @@ With validity and termination proven, we prove that the function ultimately has 
 $$
 I^V\wedge\neg C\wedge I^C\implies \text{Post} \tag{Correct Return Values}
 $$
-At any $k^{th}$ loop iteration, we notice that the postcondition is satisfied for the slice $\text{L}[0:i_{k}]$; thus we usually define $I^C_{k}(i): \text{Post(L}[0:i_{k}])$
+At the start of the $k^{th}$ loop iteration, we notice that the postcondition is satisfied for the slice $\text{L}[0:i_{k}]$; thus we usually define $I^C_{k}(i): \text{Post(L}[0:i_{k}])$
 - Then, on termination of the loop we have from $I^V$ that $i\leq \text{len(L)}$, and from $\neg C$ that $i\geq \text{len(L)}$, which together imply $i=\text{len(L)}$, from which we directly have $I^C(\text{len(L)})\equiv \text{Post(L}[0:\text{len(L)}])$; ie. the postconditions are satisfied for the entire input list as needed
 - Note, we assume Python list slicing conventions where the slice range is **exclusive** of the upper bound despite notation implying otherwise!
