@@ -114,6 +114,7 @@ First we introduce new terminology and two types of predicates, regarding iterat
 - **Loop Invariant:** the predicate $I_{k}(\dots)$ is **true every time the loop condition is checked**
 	- This is necessary for us to reason about **all** iterations of the loop; without something that is uniformly true among them we would need explicit values for each iteration
 		- Thus a loop invariant is correct if it is **always true at the beginning of every loop** iteration, **including the loop check that fails**, causing the loop to terminate
+		- This also means invariants **must not depend on the iteration number** $k$; they must only depend on program variables
 	- Loop invariants are used to prove the **validity** of each loop step, and finally the **correct return value** in the end
 		- Note, this often requires **separate loop invariants** to prove each requirement
 		- These predicates may require some creativity, but usually:
