@@ -118,10 +118,10 @@ First we introduce new terminology and two types of predicates, regarding iterat
 	- Loop invariants are used to prove the **validity** of each loop step, and finally the **correct return value** in the end
 		- Note, this often requires **separate loop invariants** to prove each requirement
 		- These predicates may require some creativity, but usually:
-			- To prove **validity**; we use an invariant $I^V$ consisting of the **preconditions and loop constraints** needed for all operations in the loop body to be valid (ex. list indices remaining valid, etc.), most commonly:
+			- To prove **validity**; we use an invariant $I^V$ consisting of the **preconditions and loop constraints** needed for all operations in the loop body to be valid (ex. list indices remaining valid, etc.), most commonly: ==this is the standard predicate $I^S$ for the loop itself, usually we need more, ex. things related to loop variables==
 				- $I^V(i):i\in \mathbb{N}\wedge i\in[0:\text{len(L)}]$ where $i$ is the loop variable and $\text{L}$ is a list indexed from $0$
 				- Once we prove this invariant is always true, we can take this together with $C$ to conclude that inequality comparisons, list indexing, incrementing, etc. are all valid for all loop iterations
-			- To prove **correct return value**; we use an invariant $I^C$ consisting of the **postconditions** (more on this a bit later)
+			- To prove **correct return value**; we use an invariant $I^P$ consisting of the **postconditions** (more on this a bit later)
 - **Loop Variant:** the loop variant $V_{k}$ is a function (but **not a predicate**) of some variable(s) in the iterative function which must always be a **natural number** and **strictly decrease** on each loop iteration
 	- The loop variant is used to prove **termination**; that the loop does not run infinitely
 	- We prove that the image of the $V_{k}$ function is a subset of $\mathbb{N}$ and is a strictly decreasing sequence, and thus we can invoke WOP to deduce that the loop cannot run forever
@@ -147,10 +147,10 @@ Now the Simple Induction that we perform in these proofs becomes clear:
 Note, these are only **proofs that the invariants and variant are always true** whenever the condition is checked; **direct proofs** of validity and termination (and correctness; more on that just below) themselves follow these proofs!
 
 With validity and termination proven, we prove that the function ultimately has a **correct return value(s)**, ie. that it satisfies the postconditions
-- This follows directly from the fact that upon loop termination we have $I^V$ and $I^C$ (by invariant proofs) and $\neg C$ (by definition), from which we can conclude that the postconditions are satisfied directly (assuming we designed a good invariant!)
+- This follows directly from the fact that upon loop termination we have $I^V$ and $I^P$ (by invariant proofs) and $\neg C$ (by definition), from which we can conclude that the postconditions are satisfied directly (assuming we designed a good invariant!
 $$
-I^V\wedge\neg C\wedge I^C\implies \text{Post} \tag{Correct Return Values}
+I^V\wedge\neg C\wedge I^P\implies \text{Post} \tag{Correct Return Values}
 $$
-At the start of the $k^{th}$ loop iteration, we notice that the postcondition is satisfied for the slice $\text{L}[0:i_{k}]$; thus we usually define $I^C_{k}(i): \text{Post(L}[0:i_{k}])$
-- Then, on termination of the loop we have from $I^V$ that $i\leq \text{len(L)}$, and from $\neg C$ that $i\geq \text{len(L)}$, which together imply $i=\text{len(L)}$, from which we directly have $I^C(\text{len(L)})\equiv \text{Post(L}[0:\text{len(L)}])$; ie. the postconditions are satisfied for the entire input list as needed
+At the start of the $k^{th}$ loop iteration, we notice that the postcondition is satisfied for the slice $\text{L}[0:i_{k}]$; thus we usually define $I^P_{k}(i): \text{Post(L}[0:i_{k}])$
+- Then, on termination of the loop we have from $I^V$ that $i\leq \text{len(L)}$, and from $\neg C$ that $i\geq \text{len(L)}$, which together imply $i=\text{len(L)}$, from which we directly have $I^P(\text{len(L)})\equiv \text{Post(L}[0:\text{len(L)}])$; ie. the postconditions are satisfied for the entire input list as needed
 - Note, we assume Python list slicing conventions where the slice range is **exclusive** of the upper bound despite notation implying otherwise!
