@@ -157,3 +157,28 @@ At the start of the $k^{th}$ loop iteration, we notice that the postcondition is
 - Note, we assume Python list slicing conventions where the slice range is **exclusive** of the upper bound despite notation implying otherwise!
 # <u>Runtime of Recursive Algorithms</u>
 A
+# <u>Regular Languages and Finite Automata</u>
+Definitions related to strings:
+- **Alphabet:** a **finite** set of symbols, denoted $\Sigma$
+- **String:** a **finite** sequence of symbols over $\Sigma$
+	- The **empty string** denoted $\epsilon$ is the sequence of zero symbols
+	- The **infinite** set (allowing for repeated symbols) of **all strings** over an alphabet $\Sigma$ is denoted $\Sigma^*$ 
+	- The **length** of a string $w\in\Sigma^*$ is the number of symbols appearing the string
+		- The **finite** set of **all strings of length** $n$ over $\Sigma$ is denoted $\Sigma^n$, from which it follows that:
+			- $|\Sigma^n|=|\Sigma|^n$
+			- $\Sigma^0=\{ \epsilon \}$
+- **Language:** a **finite or infinite** subset of strings over $\Sigma$; ie. $L\subseteq\Sigma^*$ or equivalently $L\in \mathcal{P}(\Sigma^*)$
+	- **Union:** $L\cup M=\{ x \in\Sigma^* : x \in L\vee x \in M \}$
+	- **Concatenation:** $LM=\{ xy\in\Sigma^* : x \in L\wedge y\in M \}$
+	- **Kleene Star:** $L^*=\{ \epsilon \}\cup \{ x \in\Sigma^* : \exists w_{1},w_{2},\dots,w_{n}\in L,x=w_{1}w_{2}\dots w_{n}\text{ for some }n \}$
+		- This is equivalent to $L^*=\{ \epsilon \}\cup L\cup LL \cup LLL\dots$, meaning this language can be split into smaller strings all of which are in $L$
+		- This is analogous to the $\Sigma^*$ definition (with a language rather than an alphabet), from which it follows that this set is also **infinite**
+
+Then **set of regular languages** over an alphabet $\Sigma$ is **recursively** defined as follows:
+- $\emptyset$ and $\{ \epsilon \}$ are regular languages
+- For any symbol $c\in\Sigma$, $\{ c \}$ is a regular language
+- For regular languages $L,M$, all of $L\cup M,LM,L^*,M^*$ are also regular languages
+Clearly regular languages are **finite or infinite** sets of strings, and many computer programs are algorithms which aim to **decide membership** in a particular regular language
+- To this end, we would like a simple, computer-friendly representation of regular languages 
+	- Then, we can input an arbitrary regular language and a string, and the computer determines whether the string is in the language or not
+	- This is the idea behind **regular expressions** (regex)
