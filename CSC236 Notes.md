@@ -157,4 +157,3 @@ At the start of the $k^{th}$ loop iteration, we notice that the postcondition is
 - Note, we assume Python list slicing conventions where the slice range is **exclusive** of the upper bound despite notation implying otherwise!
 # <u>Runtime of Recursive Algorithms</u>
 A
-- **Well-Ordering:** any **nonempty** subset of $\mathbb{N}$ con
