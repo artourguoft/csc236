@@ -167,7 +167,7 @@ Definitions related to strings:
 		- The **finite** set of **all strings of length** $n$ over $\Sigma$ is denoted $\Sigma^n$, from which it follows that:
 			- $|\Sigma^n|=|\Sigma|^n$
 			- $\Sigma^0=\{ \epsilon \}$
-- **Language:** a **finite or infinite** subset of strings over $\Sigma$; ie. $L\subseteq\Sigma^*$ or equivalently $L\in \mathcal{P}(\Sigma^*)$
+- **Language:** a **finite or infinite** subset of strings over $\Sigma$; ie. $L\subseteq\Sigma^*$ or equivalently $L\in \mathcal{P}(\Sigma^*)$, for which we define the following operations
 	- **Union:** $L\cup M=\{ x \in\Sigma^* : x \in L\vee x \in M \}$
 	- **Concatenation:** $LM=\{ xy\in\Sigma^* : x \in L\wedge y\in M \}$
 	- **Kleene Star:** $L^*=\{ \epsilon \}\cup \{ x \in\Sigma^* : \exists w_{1},w_{2},\dots,w_{n}\in L,x=w_{1}w_{2}\dots w_{n}\text{ for some }n \}$
@@ -175,10 +175,45 @@ Definitions related to strings:
 		- This is analogous to the $\Sigma^*$ definition (with a language rather than an alphabet), from which it follows that this set is also **infinite**
 
 Then **set of regular languages** over an alphabet $\Sigma$ is **recursively** defined as follows:
-- $\emptyset$ and $\{ \epsilon \}$ are regular languages
+- $\emptyset$ is a regular language (this is an empty set, ie. the set with no strings)
+- $\{ \epsilon \}$ is a regular language (this is the set with just the empty string)
 - For any symbol $c\in\Sigma$, $\{ c \}$ is a regular language
-- For regular languages $L,M$, all of $L\cup M,LM,L^*,M^*$ are also regular languages
+- For any regular languages $L,M$, all of the below are also regular languages:
+	-  $L\cup M$
+	- $LM$
+	- $L^*$
+	- $M^*$
 Clearly regular languages are **finite or infinite** sets of strings, and many computer programs are algorithms which aim to **decide membership** in a particular regular language
 - To this end, we would like a simple, computer-friendly representation of regular languages 
 	- Then, we can input an arbitrary regular language and a string, and the computer determines whether the string is in the language or not
 	- This is the idea behind **regular expressions** (regex)
+
+The **set of regular expressions** $\mathcal{R}_{\Sigma}$ over an alphabet $\Sigma$ is also **recursively** defined as follows:
+- $\phi \in \mathcal{R}_{\Sigma}$ ($\phi$ is the regex matching the language with no strings)
+- $\epsilon \in \mathcal{R}_{\Sigma}$ ($\epsilon$ is the regex matching the language of just the empty string)
+- For any symbol $c\in\Sigma$, $c\in \mathcal{R}_{\Sigma}$
+- For any regular expressions $R,S\in \mathcal{R}_{\Sigma}$, all of the below are also regular expressions:
+	- $R+S\in \mathcal{R}_{\Sigma}$ (this is the regex equivalent of the **union** operation for languages)
+	- $R\cdot S\in \mathcal{R}_{\Sigma}$ (this is the regex equivalent of the **concatenation** operation for languages)
+	- $R^*\in \mathcal{R}_{\Sigma}$ (these are the regex equivalents of the **Kleene Star** operation for languages)
+	- $S^*\in \mathcal{R}_{\Sigma}$
+For the sake of clarity we preclude any of the symbols used above from being in our languages and regexes
+- Also, we define the **order of operations** as $+<\cdot<*$, and note that union and concatenation are **associative**, to alleviate the need for excessive bracketing
+Then, for any regular expressions $R\in \mathcal{R}_{\Sigma}$, there is an associated regular language over $\Sigma$ matched by the function $\mathcal{L}:\mathcal{R}_{\Sigma}\to \mathcal{P}(\Sigma^*)$:
+- $\mathcal{L}(\phi)=\emptyset$
+- $\mathcal{L}(\epsilon)=\{ \epsilon \}$
+- For any symbol $c\in\Sigma$, $\mathcal{L}(c)=\{ c \}$
+- For any regular expressions $R,S\in \mathcal{R}_{\Sigma}$:
+	- $\mathcal{L}(R+S)=\mathcal{L}(R)\cup \mathcal{L}(S)$
+	- $\mathcal{L}(R\cdot S)=\{ rs:r\in \mathcal{L}(R)\wedge s \in \mathcal{L}(S) \}$
+	- $\mathcal{L}(R^*)=\{ r_{1}\dots r_{n}:r_{1}\dots r_{n}\in \mathcal{L}(R)\wedge n\in \mathbb{N}\}$
+If $r\in \mathcal{L}(R)$, we say the regex $R$ **matches** the string $r$
+
+
+We define a **Deterministic Finite State Automaton** (DFA) by its five components:
+- An alphabet $\Sigma$
+- A **nonempty finite** set of **states** $Q$
+- A single **initial state** $q_{\text{start}}\in Q$
+- A **set** of final **accepting states** $F\subseteq Q$
+- A **transition function** $\delta:Q\times\Sigma\to Q$
+Then, a DFA takes 
